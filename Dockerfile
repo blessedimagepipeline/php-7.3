@@ -33,4 +33,10 @@ ENV PATH ${PATH}:/home/site/wwwroot
 
 WORKDIR /var/www/html
 
+RUN { \
+    echo 'DocumentRoot /home/site/wwwroot'; \
+    echo 'DirectoryIndex default.htm default.html index.htm index.html index.php hostingstart.html'; \
+    } > /etc/apache2/apache2.conf
+
+
 ENTRYPOINT ["/bin/init_container.sh"]
