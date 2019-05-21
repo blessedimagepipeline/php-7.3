@@ -31,12 +31,12 @@ ENV WEBSITE_ROLE_INSTANCE_ID localRoleInstance
 ENV WEBSITE_INSTANCE_ID localInstance
 ENV PATH ${PATH}:/home/site/wwwroot
 
-WORKDIR /var/www/html
-
 RUN { \
     echo 'DocumentRoot /home/site/wwwroot'; \
     echo 'DirectoryIndex default.htm default.html index.htm index.html index.php hostingstart.html'; \
-    } >> /etc/apache2/apache2.conf
+    echo 'ServerName localhost'; \
+} >> /etc/apache2/apache2.conf
 
+WORKDIR /home/site/wwwroot
 
 ENTRYPOINT ["/bin/init_container.sh"]
