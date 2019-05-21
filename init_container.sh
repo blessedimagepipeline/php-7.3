@@ -24,10 +24,9 @@ sed -i "s/SSH_PORT/$SSH_PORT/g" /etc/ssh/sshd_config
 appPath="/home/site/wwwroot"
 runFromPath="/tmp/webapp"
 startupCommandPath="/opt/startup/startup.sh"
-userStartupCommand="$@"
 
 oryxArgs="-appPath $appPath -output $startupCommandPath \
-    -bindPort $PORT -userStartupCommand '$userStartupCommand'"
+    -bindPort $PORT"
 
 echo "Running oryx $oryxArgs"
 eval oryx $oryxArgs
