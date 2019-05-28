@@ -1,7 +1,7 @@
-FROM mcr.microsoft.com/oryx/php-7.3:20190518.2
+FROM ${TAG}
 LABEL maintainer="Azure App Services Container Images <appsvc-images@microsoft.com>"
 
-ENV PHP_VERSION 7.3
+ENV PHP_VERSION ${VERSION}
 
 COPY init_container.sh /bin/
 COPY hostingstart.html /home/site/wwwroot/hostingstart.html
