@@ -11,6 +11,7 @@ RUN chmod 755 /bin/init_container.sh \
     && echo "root:Docker!" | chpasswd \
     && echo "cd /home/site/wwwroot" >> /etc/bash.bashrc \
     && ln -s /home/site/wwwroot /var/www/html \
+    && ln -s /home/LogFiles /var/log/apache2 \
     && mkdir -p /opt/startup
 
 # configure startup
