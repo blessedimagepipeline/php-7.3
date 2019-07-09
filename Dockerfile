@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/oryx/php:7.3-20190607.1
+FROM mcr.microsoft.com/oryx/php:7.3-20190708.2
 LABEL maintainer="Azure App Services Container Images <appsvc-images@microsoft.com>"
 
 ENV PHP_VERSION 7.3
@@ -31,10 +31,25 @@ ENV WEBSITE_ROLE_INSTANCE_ID localRoleInstance
 ENV WEBSITE_INSTANCE_ID localInstance
 ENV PATH ${PATH}:/home/site/wwwroot
 
+RUN sed -i 's!ErrorLog ${APACHE_LOG_DIR}/error.log!ErrorLog /dev/stderr!g' /etc/apache2/apache2.conf 
+RUN sed -i 's!User ${APACHE_RUN_USER}!User www-data!g' /etc/apache2/apache2.conf 
+RUN sed -i 's!User ${APACHE_RUN_GROUP}!Group www-data!g' /etc/apache2/apache2.conf 
+RUN sed -i 's!CustomLog ${APACHE_LOG_DIR}/other_vhosts_access.log vhost_combined!CustomLog /dev/stderr vhost_combined!g' /etc/apache2/conf-enabled/other-vhosts-access-log.conf
+RUN rm -f /usr/local/etc/php/conf.d/php.ini \
+   && { \
+                echo 'error_log=/dev/stderr'; \
+                echo 'display_errors=Off'; \
+                echo 'log_errors=On'; \
+                echo 'display_startup_errors=Off'; \
+                echo 'date.timezone=UTC'; \
+                echo 'zend_extension=opcache'; \
+    } > /usr/local/etc/php/conf.d/php.ini
+
 RUN { \
-    echo 'DocumentRoot /home/site/wwwroot'; \
-    echo 'DirectoryIndex default.htm default.html index.htm index.html index.php hostingstart.html'; \
-    echo 'ServerName localhost'; \
+   echo 'DocumentRoot /home/site/wwwroot'; \
+   echo 'DirectoryIndex default.htm default.html index.htm index.html index.php hostingstart.html'; \
+   echo 'ServerName localhost'; \
+   echo 'CustomLog /dev/stdout combined'; \
 } >> /etc/apache2/apache2.conf
 
 WORKDIR /home/site/wwwroot
