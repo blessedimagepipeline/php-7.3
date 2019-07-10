@@ -32,14 +32,16 @@ ENV WEBSITE_INSTANCE_ID localInstance
 ENV PATH ${PATH}:/home/site/wwwroot
 
 RUN mkdir -p /var/log/
-RUN touch /var/log/error.log
-RUN sed -i 's!ErrorLog ${APACHE_LOG_DIR}/error.log!ErrorLog /var/log/error.log!g' /etc/apache2/apache2.conf 
+RUN touch /var/log/error1.log
+RUN touch /var/log/error2.log
+RUN touch /var/log/error3.log
+RUN sed -i 's!ErrorLog ${APACHE_LOG_DIR}/error.log!ErrorLog /var/log/error1.log!g' /etc/apache2/apache2.conf 
 RUN sed -i 's!User ${APACHE_RUN_USER}!User www-data!g' /etc/apache2/apache2.conf 
 RUN sed -i 's!User ${APACHE_RUN_GROUP}!Group www-data!g' /etc/apache2/apache2.conf 
-RUN sed -i 's!CustomLog ${APACHE_LOG_DIR}/other_vhosts_access.log vhost_combined!CustomLog /var/log/error.log vhost_combined!g' /etc/apache2/conf-enabled/other-vhosts-access-log.conf
+RUN sed -i 's!CustomLog ${APACHE_LOG_DIR}/other_vhosts_access.log vhost_combined!CustomLog /var/log/error2.log vhost_combined!g' /etc/apache2/conf-enabled/other-vhosts-access-log.conf
 RUN rm -f /usr/local/etc/php/conf.d/php.ini \
    && { \
-                echo 'error_log=/var/log/error.log'; \
+                echo 'error_log=/dev/stderr'; \
                 echo 'display_errors=Off'; \
                 echo 'log_errors=On'; \
                 echo 'display_startup_errors=Off'; \
@@ -51,7 +53,7 @@ RUN { \
    echo 'DocumentRoot /home/site/wwwroot'; \
    echo 'DirectoryIndex default.htm default.html index.htm index.html index.php hostingstart.html'; \
    echo 'ServerName localhost'; \
-   echo 'CustomLog /var/log/error.log combined'; \
+   echo 'CustomLog /var/log/error3.log combined'; \
 } >> /etc/apache2/apache2.conf
 
 WORKDIR /home/site/wwwroot
