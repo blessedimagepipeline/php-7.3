@@ -41,7 +41,6 @@ RUN { \
    echo 'DirectoryIndex default.htm default.html index.htm index.html index.php hostingstart.html'; \
    echo 'ServerName localhost'; \
    echo 'CustomLog /var/log/error.log combined'; \
-   echo 'ErrorLogFormat combinded'; \
 } >> /etc/apache2/apache2.conf
 RUN rm -f /usr/local/etc/php/conf.d/php.ini \
    && { \
