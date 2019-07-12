@@ -50,6 +50,8 @@ RUN rm -f /usr/local/etc/php/conf.d/php.ini \
                 echo 'zend_extension=opcache'; \
     } > /usr/local/etc/php/conf.d/php.ini
 
+RUN rm -f /etc/apache2/conf-enabled/other-vhosts-access-log.conf
+
 WORKDIR /home/site/wwwroot
 
 ENTRYPOINT ["/bin/init_container.sh"]
