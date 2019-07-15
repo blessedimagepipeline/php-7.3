@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/oryx/php:7.3-20190628.2
+FROM mcr.microsoft.com/oryx/php:7.3-20190712.5
 LABEL maintainer="Azure App Services Container Images <appsvc-images@microsoft.com>"
 
 ENV PHP_VERSION 7.3
@@ -41,6 +41,8 @@ RUN { \
    echo 'ServerName localhost'; \
    echo 'CustomLog /dev/stdout combined'; \
 } >> /etc/apache2/apache2.conf
+
+RUN rm -f /etc/apache2/conf-enabled/other-vhosts-access-log.conf
 
 WORKDIR /home/site/wwwroot
 
